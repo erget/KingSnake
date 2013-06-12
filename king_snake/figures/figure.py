@@ -53,13 +53,35 @@ class Figure(object):
                 except FieldOccupiedError:
                     pass
 
+    def _fields_in_directions(self, directions, perimeter=8):
+        """
+        Find fields within a perimeter in a given direction.
+
+        Returns a list of fields in the given directions within the movement
+        perimeter. Terminates after appending a field with a piece on it.
+
+        The perimeter is set to 8 by default, because chess pieces operate on
+        an 8x8 board.
+        """
+        fields = []
+        for direction in directions:
+            found_figure = None
+            next_position = getattr(self.position, direction)()
+            distance = 1
+            while distance <= perimeter and next_position and not found_figure:
+                fields.append(next_position)
+                if next_position.figure:
+                    found_figure = next_position.figure
+                next_position = getattr(next_position, direction)()
+                distance += 1
+        return fields
+
     @property
     def legal_moves(self):
         """
         Compute list of legal moves.
 
-        If legal, append field. If piece, stop. Append if other color, else
-        don't append.
+        If legal, append field. If piece, append field and stop.
         """
         raise NotImplementedError
 
@@ -72,7 +94,6 @@ class Figure(object):
         """
         if field in self.legal_moves:
             field.receive_figure(self)
-            self.position = field
         else:
             raise IllegalMoveError("Piece cannot move to given field.")
 
