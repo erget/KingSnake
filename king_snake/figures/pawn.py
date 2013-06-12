@@ -1,9 +1,9 @@
 """Pawn chess piece."""
 
-from figure import RelevantHistoryFigure
+from figure import Figure
 
 
-class Pawn(RelevantHistoryFigure):
+class Pawn(Figure):
 
     """Pawn chess piece."""
 

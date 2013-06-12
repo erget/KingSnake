@@ -1,9 +1,9 @@
 """King chess piece."""
 
-from figure import RelevantHistoryFigure
+from figure import Figure
 
 
-class King(RelevantHistoryFigure):
+class King(Figure):
 
     """King chess piece."""
 

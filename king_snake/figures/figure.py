@@ -35,6 +35,7 @@ class Figure(object):
             self.color = "black"
         self.position = None
         self._set_position()
+        self.already_moved = False
 
     def _set_position(self):
         """
@@ -84,15 +85,3 @@ class Figure(object):
             field.receive_figure(self)
             self.position = field
             return
-
-
-class RelevantHistoryFigure(Figure):
-
-    """A figure for which the move history is relevant."""
-
-    start_position = {"white": (None),
-                      "black": (None)}
-
-    def __init__(self, player):
-        super(RelevantHistoryFigure, self).__init__(player)
-        self.already_moved = False
