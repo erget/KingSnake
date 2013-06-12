@@ -83,6 +83,7 @@ class Player(object):
             self.rollback(moved_piece, captured_piece)
             raise IllegalMoveError("Move would put player's king in check.")
 
+        figure.already_moved = True
         self.chessboard.end_turn()
 
     def rollback(self, moved_piece, captured_piece=None):
