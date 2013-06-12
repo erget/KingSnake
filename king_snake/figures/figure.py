@@ -34,12 +34,12 @@ class Figure(object):
         else:
             self.color = "black"
         self.position = None
-        self._set_position()
+        self._set_start_position()
         self.already_moved = False
 
-    def _set_position(self):
+    def _set_start_position(self):
         """
-        Set figure's position.
+        Set figure's starting position.
 
         Go through all possible positions for object's color. Try to take
         position. If position is blocked, try next position.
