@@ -13,6 +13,15 @@ class King(Figure):
     def __init__(self, player):
         super(King, self).__init__(player)
 
+    # TODO: Allow castling movement
+    @property
+    def legal_moves(self):
+        """Return legal moves from current position."""
+        return self._fields_in_directions(("to_left", "to_right", "above",
+                                           "below", "above_right",
+                                           "below_right", "above_left",
+                                           "below_left"), 1)
+
     @property
     def in_check(self):
         """Test if king is in check."""

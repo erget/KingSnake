@@ -12,3 +12,9 @@ class Rook(Figure):
 
     def __init__(self, player):
         super(Rook, self).__init__(player)
+
+    @property
+    def legal_moves(self):
+        """Return legal moves from current position."""
+        return self._fields_in_directions(("to_left", "to_right", "above",
+                                           "below"))

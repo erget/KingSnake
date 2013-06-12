@@ -14,5 +14,10 @@ class Pawn(Figure):
         super(Pawn, self).__init__(player)
         self.already_captured = False
 
+    # TODO: Implement exceptional movement
+    def legal_moves(self):
+        """Return legal moves from current position."""
+        return self._fields_in_directions(["above"], 1)
+
     def become_queen(self):
         """Become a queen."""

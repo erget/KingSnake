@@ -60,6 +60,10 @@ class Figure(object):
         Returns a list of fields in the given directions within the movement
         perimeter. Terminates after appending a field with a piece on it.
 
+        The directions are the string names of directional methods on the Field
+        class which return neighboring Fields in the given direction. See Field
+        for the possible directions.
+
         The perimeter is set to 8 by default, because chess pieces operate on
         an 8x8 board.
         """
