@@ -37,8 +37,16 @@ class Player(object):
         self.figures = None
         self.king = None
 
+    @property
+    def other_player(self):
+        """Return other player in chess game"""
+        if self == self.chessboard.players["white"]:
+            return self.chessboard.players["black"]
+        else:
+            return self.chessboard.players["white"]
+
     def set_up_board(self, chessboard):
-        """Set up pieces on given chessboard."""
+        """Set up pieces on given chessboard and find other player."""
         self.chessboard = chessboard
         # Create figures
         self.figures = [Pawn(self) for pawns in range(8)]
