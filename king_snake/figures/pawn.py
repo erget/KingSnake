@@ -15,6 +15,7 @@ class Pawn(Figure):
         self.already_captured = False
 
     # TODO: Implement exceptional movement
+    @property
     def legal_moves(self):
         """Return legal moves from current position."""
         return self._fields_in_directions(["above"], 1)

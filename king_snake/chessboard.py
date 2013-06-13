@@ -88,6 +88,12 @@ class Field(object):
         if below:
             return below.to_left()
 
+    def threatened_by(self, player):
+        """Field is in legal moves of given player."""
+        for figure in player.figures:
+            if self in figure.legal_moves:
+                return True
+
 
 class Chessboard(object):
 
