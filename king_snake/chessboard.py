@@ -14,7 +14,27 @@ class Field(object):
                                                        board=self.chessboard)
 
     def __str__(self):
-        return "{}{}".format(chr(self.letter), self.number)
+        """
+        Return an ASCII representation of the field and its figure, if present.
+
+        Top and left borders are not printed as they are provided by their
+        neighbors or the border of the chessboard.
+
+        Example:
+               |
+         Pawn  |
+         White |
+        _______|
+        """
+        horizontal_border = "_" * 7 + "|"
+        empty_line = " " * 7 + "|"
+        identifier = ""
+        if self.figure:
+            identifier += "{:^7}|\n".format(self.figure.__class__.__name__)
+            identifier += "{:^7}|".format(self.figure.color.capitalize())
+        else:
+            identifier += "{}\n{}".format(empty_line, empty_line)
+        return "\n".join([empty_line, identifier, horizontal_border])
 
     def __init__(self, letter, number, chessboard):
         """
