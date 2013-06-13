@@ -30,10 +30,24 @@ class Player(object):
             return_string = self.__repr__()
         return return_string
 
+    @staticmethod
+    def rollback(moved_piece, captured_piece=None):
+        """
+        Reverse a turn.
+
+        @param moved_piece - Tuple of piece moved during the move with its old
+                             position
+        @param captured_piece - Tuple for captured piece, formated as above
+        """
+        rollback_pieces = [moved_piece]
+        if captured_piece:
+            rollback_pieces.append(captured_piece)
+
+        for piece in rollback_pieces:
+            piece["old_position"].receive_figure(piece["figure"])
+            piece["figure"].position = piece["old_position"]
+
     def __init__(self):
-        """
-        Gather figures and set up player's side of chessboard.
-        """
         self.chessboard = None
         self.figures = None
         self.king = None
@@ -49,8 +63,7 @@ class Player(object):
     def set_up_board(self, chessboard):
         """Set up pieces on given chessboard and find other player."""
         self.chessboard = chessboard
-        # Create figures
-        self.figures = [Pawn(self) for pawns in range(8)]
+        self.figures = list(Pawn(self) for pawns in range(8))
         for doubled_piece in (Rook, Knight, Bishop) * 2:
             self.figures.append(doubled_piece(self))
         self.figures.append(Queen(self))
@@ -65,7 +78,8 @@ class Player(object):
         a moveable figure is located at the start field. If the piece can be
         moved, move to the goal field, capturing a figure at the goal field if
         necessary. Finally, check if the move would put the own king in check.
-        If yes, roll back the move.
+        If yes, roll back the move. Otherwise, record the current turn on all
+        moved pieces and end the turn.
 
         @param start_field - String used to look up field object (e.g. "E2")
         @param goal_field - Like start_field
@@ -95,20 +109,7 @@ class Player(object):
             raise IllegalMoveError("Move would put player's king in check.")
 
         figure.already_moved = True
-        self.chessboard.end_turn()
-
-    def rollback(self, moved_piece, captured_piece=None):
-        """
-        Reverse a turn.
-
-        @param moved_piece - Tuple of piece moved during the move with its old
-                             position
-        @param captured_piece - Tuple for captured piece, formated as above
-        """
-        rollback_pieces = [moved_piece]
+        figure.last_moved = self.chessboard.current_move
         if captured_piece:
-            rollback_pieces.append(captured_piece)
-
-        for piece in rollback_pieces:
-            piece["old_position"].receive_figure(piece["figure"])
-            piece["figure"].position = piece["old_position"]
+            captured_piece.last_moved = self.chessboard.current_move
+        self.chessboard.end_turn()

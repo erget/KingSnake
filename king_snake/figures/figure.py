@@ -27,6 +27,11 @@ class Figure(object):
 
         The start position is determined by the player's color and whether or
         not the position on the board is already taken.
+
+        A Player set's a figure's already_moved field to True when moving. The
+        last_moved field is set to the current move number whenever a move is
+        successfully completed. A captured move is also set to have been moved
+        when being captured, as is a castled rook.
         """
         self.player = player
         if self.player == self.player.chessboard.players["white"]:
@@ -36,6 +41,7 @@ class Figure(object):
         self.position = None
         self._set_start_position()
         self.already_moved = False
+        self.last_moved = None
 
     def _set_start_position(self):
         """

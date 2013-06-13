@@ -100,13 +100,14 @@ class Chessboard(object):
     """A chessboard."""
 
     def __init__(self):
+        """Initialize fields and set current move to 1."""
         self.players = dict()
-
         self.fields = dict()
         self.current_player = None
         for letter in "ABCDEFGH":
             for number in range(1, 9):
                 self.fields[letter + str(number)] = Field(letter, number, self)
+        self.current_move = 1
 
     def add_players(self, white, black):
         """Add players to the game"""
@@ -116,8 +117,9 @@ class Chessboard(object):
             self.current_player = self.players["white"]
 
     def end_turn(self):
-        """End turn for current player."""
+        """End turn for current player and increment current_move."""
         if self.current_player == self.players["white"]:
             self.current_player = self.players["black"]
         else:
             self.current_player = self.players["white"]
+        self.current_move += 1
