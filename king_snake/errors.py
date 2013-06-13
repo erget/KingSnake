@@ -15,3 +15,7 @@ class TurnError(Exception):
 
 class FieldOccupiedError(Exception):
     """Goal field is occupied."""
+
+
+class FieldMustBeCastledError(Exception):
+    """King is being moved and the field is only available for castling."""

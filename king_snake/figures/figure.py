@@ -1,6 +1,6 @@
 """Abstract chess figure classes."""
 
-from king_snake.exceptions import FieldOccupiedError, IllegalMoveError
+from king_snake.errors import FieldOccupiedError, IllegalMoveError
 
 
 class Figure(object):

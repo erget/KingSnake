@@ -1,6 +1,6 @@
 """A chess board and fields."""
 
-from king_snake.exceptions import FieldOccupiedError
+from king_snake.errors import FieldOccupiedError
 
 
 class Field(object):

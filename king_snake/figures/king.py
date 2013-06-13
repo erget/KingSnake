@@ -1,5 +1,6 @@
 """King chess piece."""
 
+from king_snake.errors import FieldMustBeCastledError, IllegalMoveError
 from figure import Figure
 
 

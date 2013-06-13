@@ -1,8 +1,9 @@
 """A chess player."""
 
-from king_snake.exceptions import (FieldOccupiedError,
-                                   IllegalMoveError,
-                                   TurnError)
+from king_snake.errors import (FieldMustBeCastledError,
+                               FieldOccupiedError,
+                               IllegalMoveError,
+                               TurnError)
 from king_snake.figures import Pawn, Rook, Knight, Bishop, Queen, King
 
 
@@ -85,6 +86,8 @@ class Player(object):
             captured_piece = None
         except FieldOccupiedError:
             captured_piece = figure.capture(goal_field)
+        except FieldMustBeCastledError:
+            captured_piece = figure.castle(goal_field)
         moved_piece = {"figure": figure, "old_position": start_field}
 
         if self.king.in_check:
