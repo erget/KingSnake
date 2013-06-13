@@ -21,12 +21,13 @@ class Figure(object):
         return "{type} at {position}".format(type=self.__class__.__name__,
                                              position=self.position)
 
-    def __init__(self, player):
+    def __init__(self, player, position=None):
         """
         Initialize figure and position figure on chessboard.
 
-        The start position is determined by the player's color and whether or
-        not the position on the board is already taken.
+        If no initialization position is given, the start position is
+        determined by the player's color and whether or not the position on the
+        board is already taken.
 
         A Player set's a figure's already_moved field to True when moving. The
         last_moved field is set to the current move number whenever a move is
@@ -38,8 +39,12 @@ class Figure(object):
             self.color = "white"
         else:
             self.color = "black"
-        self.position = None
-        self._set_start_position()
+
+        if not position:
+            self._set_start_position()
+        else:
+            self.position = position
+
         self.already_moved = False
         self.last_moved = None
 
