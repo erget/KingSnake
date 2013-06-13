@@ -39,7 +39,7 @@ class Player(object):
         self.king = None
 
     @property
-    def other_player(self):
+    def opponent(self):
         """Return other player in chess game"""
         if self == self.chessboard.players["white"]:
             return self.chessboard.players["black"]
