@@ -107,6 +107,8 @@ class Figure(object):
         @return dict: {"figure": figure, "old_position": old_position}
         """
         if field.figure.color != self.color:
+            captured_figure = field.figure
+            field.figure = None
             field.receive_figure(self)
             self.position = field
-            return
+            return {"figure": captured_figure, "old_position": field}
