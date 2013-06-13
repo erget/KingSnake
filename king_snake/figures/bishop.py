@@ -1,6 +1,6 @@
 """A bishop chess piece."""
 
-from figure import Figure
+from .figure import Figure
 
 
 class Bishop(Figure):

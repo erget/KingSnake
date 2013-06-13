@@ -1,6 +1,6 @@
 """A knight chess piece."""
 
-from figure import Figure
+from .figure import Figure
 
 
 class Knight(Figure):
@@ -14,8 +14,12 @@ class Knight(Figure):
     def legal_moves(self):
         """Return legal moves from current position."""
         moves = []
-        for first_step in ("above", "below"):
-            for second_step in ("above_left", "above_right"):
+        steps = {"above": ("above_left", "above_right"),
+                 "below": ("below_left", "below_right"),
+                 "to_left": ("above_left", "below_left"),
+                 "to_right": ("above_right", "below_right")}
+        for first_step in steps.keys():
+            for second_step in steps[first_step]:
                 first_pos = getattr(self.position, first_step)()
                 if first_pos:
                     second_pos = getattr(first_pos, second_step)()

@@ -1,6 +1,7 @@
 """Abstract chess figure classes."""
 
-from king_snake.errors import FieldOccupiedError, IllegalMoveError
+from king_snake.errors import (FieldMustBeCastledError, FieldOccupiedError,
+                               IllegalCaptureError, IllegalMoveError)
 
 
 class Figure(object):
@@ -40,10 +41,9 @@ class Figure(object):
         else:
             self.color = "black"
 
+        self.position = position
         if not position:
             self._set_start_position()
-        else:
-            self.position = position
 
         self.already_moved = False
         self.last_moved = None
@@ -115,11 +115,16 @@ class Figure(object):
     def capture(self, field):
         """Capture piece at field.
 
+        Check if piece to capture is of different color. If not, raise error.
+        If it is, unlink the figure and field, then place self on field.
+
         @return dict: {"figure": figure, "old_position": old_position}
         """
         if field.figure.color != self.color:
             captured_figure = field.figure
+            captured_figure.field = None
             field.figure = None
             field.receive_figure(self)
-            self.position = field
             return {"figure": captured_figure, "old_position": field}
+        else:
+            raise IllegalCaptureError("Cannot capture piece of same color.")

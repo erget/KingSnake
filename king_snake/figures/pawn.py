@@ -1,6 +1,7 @@
 """Pawn chess piece."""
 
-from figure import Figure
+
+from .figure import Figure, IllegalCaptureError, IllegalMoveError
 from .queen import Queen
 
 

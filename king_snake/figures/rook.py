@@ -1,6 +1,6 @@
 """Rook chess piece."""
 
-from figure import Figure
+from .figure import Figure
 
 
 class Rook(Figure):
