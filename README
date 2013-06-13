@@ -1,0 +1,17 @@
+
+=========
+KingSnake
+=========
+
+KingSnake is a Python implementation of chess for two human players. Because
+players are also objects, an AI implementation would also be possible.
+
+KingSnake checks each move for legality and only allows legal moves to occur.
+However, because the library is open, you of course also have the possibility
+to move pieces around manually without invoking moves, making it possible to
+set up historical chess games and revel in the past.
+
+This software is released under the GNU General Public License, so feel free to
+use it any way you like.
+
+Author: `Daniel Lee <Lee.Daniel.1986@gmail.com>`_

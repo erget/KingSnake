@@ -1,4 +1,0 @@
-KingSnake
-=========
-
-A chess game
