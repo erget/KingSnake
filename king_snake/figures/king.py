@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """King chess piece."""
 
 from .figure import Figure, FieldMustBeCastledError, IllegalMoveError
@@ -9,6 +10,13 @@ class King(Figure):
 
     start_position = {"white": ["E1"],
                       "black": ["E8"]}
+
+    def __str__(self):
+        if self.color == "white":
+            string = "♔"
+        else:
+            string = "♚"
+        return string
 
     def __init__(self, player):
         """Initialize king and set castle positions."""

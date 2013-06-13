@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """A chess board and fields."""
 
 from king_snake.errors import FieldOccupiedError
@@ -15,26 +16,14 @@ class Field(object):
 
     def __str__(self):
         """
-        Return an ASCII representation of the field and its figure, if present.
+        Return unicode representation of the field and its figure, if present.
 
-        Top and left borders are not printed as they are provided by their
-        neighbors or the border of the chessboard.
-
-        Example:
-               |
-         Pawn  |
-         White |
-        _______|
+        If no figure is present, "..." is returned.
         """
-        horizontal_border = "_" * 7 + "|"
-        empty_line = " " * 7 + "|"
-        identifier = ""
-        if self.figure:
-            identifier += "{:^7}|\n".format(self.figure.__class__.__name__)
-            identifier += "{:^7}|".format(self.figure.color.capitalize())
-        else:
-            identifier += "{}\n{}".format(empty_line, empty_line)
-        return "\n".join([empty_line, identifier, horizontal_border])
+        figure = self.figure
+        if not figure:
+            figure = "…"
+        return str(figure)
 
     def __init__(self, letter, number, chessboard):
         """
@@ -118,6 +107,19 @@ class Field(object):
 class Chessboard(object):
 
     """A chessboard."""
+
+    def __str__(self):
+        """Print border with coordinates and all fields in order."""
+        string = ""
+        for row in range(8, 0, -1):
+            string += "{}|".format(row)
+            for column in range(ord("H"), ord("A") - 1, -1):
+                position = "{}{}".format(chr(column), row)
+                string += str(self.fields[position])
+            string += "\n"
+        string += " " + "=" * 9 + "\n"
+        string += "  ABCDEFGH"
+        return string
 
     def __init__(self):
         """Initialize fields and set current move to 1."""

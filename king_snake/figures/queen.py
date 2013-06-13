@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """A queen chess piece."""
 
 from .figure import Figure
@@ -9,6 +10,13 @@ class Queen(Figure):
 
     start_position = {"white": ["D1"],
                       "black": ["D8"]}
+
+    def __str__(self):
+        if self.color == "white":
+            string = "♕"
+        else:
+            string = "♛"
+        return string
 
     @property
     def legal_moves(self):

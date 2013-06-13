@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Pawn chess piece."""
 
 from .figure import Figure, IllegalCaptureError, PawnMustCaptureError
@@ -10,6 +11,13 @@ class Pawn(Figure):
 
     start_position = {"white": list(letter + "2" for letter in "ABCDEFGH"),
                       "black": list(letter + "7" for letter in "ABCDEFGH")}
+
+    def __str__(self):
+        if self.color == "white":
+            string = "♙"
+        else:
+            string = "♟"
+        return string
 
     def __init__(self, player):
         """Initialize Pawn, set direction and change thresholds by color."""
