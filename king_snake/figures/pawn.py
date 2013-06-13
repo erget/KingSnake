@@ -13,7 +13,8 @@ class Pawn(Figure):
 
     def __init__(self, player):
         super(Pawn, self).__init__(player)
-        self.already_captured = False
+        self.en_passant_ready = False
+        self.can_be_taken_en_passant = True
 
     @property
     def legal_moves(self):
@@ -41,14 +42,23 @@ class Pawn(Figure):
         return moves
 
     def move(self, field):
-        """Move to given field and become queen if possible."""
+        """Move to field, become queen if possible and track en passant."""
         if self.color == "white":
             last_row = 8
+            en_passant_row = 5
+            first_jump_row = 4
         else:
             last_row = 1
+            en_passant_row = 4
+            first_jump_row = 5
+
         super(Pawn, self).move(field)
         # Become Queen if Pawn has reached last_row
         if self.position.number == last_row:
             self = Queen(self.player, self.position)
-        # Be ready to en passant if conditions match
-        # Be ready to be en passant'd if conditions match'
+        # Be ready to en passant if in piece's fifth rank
+        elif self.position.number == en_passant_row:
+            self.en_passant_ready = True
+        # Be ready to be en passant'd if conditions match
+        elif self.position.number == first_jump_row and not self.already_moved:
+            self.can_be_taken_en_passant = True
