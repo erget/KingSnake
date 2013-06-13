@@ -91,7 +91,7 @@ class Field(object):
     def threatened_by(self, player):
         """Field is in legal moves of given player."""
         for figure in player.figures:
-            if self in figure.legal_moves:
+            if figure.position and self in figure.legal_moves:
                 return True
 
 

@@ -3,6 +3,7 @@
 from king_snake.errors import (FieldMustBeCastledError,
                                FieldOccupiedError,
                                IllegalMoveError,
+                               PawnMustCaptureError,
                                TurnError)
 from king_snake.figures import Pawn, Rook, Knight, Bishop, Queen, King
 
@@ -98,7 +99,7 @@ class Player(object):
         try:
             figure.move(goal_field)
             captured_piece = None
-        except FieldOccupiedError:
+        except (FieldOccupiedError, PawnMustCaptureError):
             captured_piece = figure.capture(goal_field)
         except FieldMustBeCastledError:
             captured_piece = figure.castle(goal_field)
@@ -111,5 +112,5 @@ class Player(object):
         figure.already_moved = True
         figure.last_moved = self.chessboard.current_move
         if captured_piece:
-            captured_piece.last_moved = self.chessboard.current_move
+            captured_piece["figure"].last_moved = self.chessboard.current_move
         self.chessboard.end_turn()

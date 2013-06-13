@@ -19,3 +19,7 @@ class FieldOccupiedError(Exception):
 
 class FieldMustBeCastledError(Exception):
     """King is being moved and the field is only available for castling."""
+
+
+class PawnMustCaptureError(Exception):
+    """A Pawn has to capture when moving diagonally."""

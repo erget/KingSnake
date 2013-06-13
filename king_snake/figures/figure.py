@@ -1,7 +1,8 @@
 """Abstract chess figure classes."""
 
 from king_snake.errors import (FieldMustBeCastledError, FieldOccupiedError,
-                               IllegalCaptureError, IllegalMoveError)
+                               IllegalCaptureError, IllegalMoveError,
+                               PawnMustCaptureError)
 
 
 class Figure(object):
@@ -122,7 +123,7 @@ class Figure(object):
         """
         if field.figure.color != self.color:
             captured_figure = field.figure
-            captured_figure.field = None
+            captured_figure.position = None
             field.figure = None
             field.receive_figure(self)
             return {"figure": captured_figure, "old_position": field}
