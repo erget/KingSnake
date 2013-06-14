@@ -111,14 +111,23 @@ class Chessboard(object):
     def __str__(self):
         """Print border with coordinates and all fields in order."""
         string = ""
-        for row in range(8, 0, -1):
+        column_string = ""
+        if self.current_player.color == "white":
+            row_range = (8, 0, -1)
+            column_range = (ord("A"), ord("H") + 1)
+        else:
+            row_range = (1, 9)
+            column_range = (ord("H"), ord("A") - 1, -1)
+        for row in range(*row_range):
             string += "{}|".format(row)
-            for column in range(ord("H"), ord("A") - 1, -1):
+            for column in range(*column_range):
                 position = "{}{}".format(chr(column), row)
                 string += str(self.fields[position])
+                if len(column_string) < 8:
+                    column_string += chr(column)
             string += "\n"
         string += " " + "=" * 9 + "\n"
-        string += "  ABCDEFGH"
+        string += "  {}".format(column_string)
         return string
 
     def __init__(self):
