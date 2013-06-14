@@ -11,5 +11,5 @@ setup(name='KingSnake',
       packages=['king_snake', 'king_snake.figures'],
       license="LICENSE",
       long_description=open("README").read(),
-      scripts=["bin/KingSnake"]
+      scripts=["bin/KingSnake", "bin/KingSnake.py"]
      )
