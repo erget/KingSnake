@@ -132,9 +132,10 @@ class Chessboard(object):
         self.current_move = 1
 
     def add_players(self, white, black):
-        """Add players to the game"""
+        """Add players to the game, assign colors and set up board."""
         for color, player in (("white", white), ("black", black)):
             self.players[color] = player
+            self.players[color].color = color
             player.set_up_board(self)
             self.current_player = self.players["white"]
 

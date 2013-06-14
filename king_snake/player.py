@@ -52,6 +52,7 @@ class Player(object):
         self.chessboard = None
         self.figures = None
         self.king = None
+        self.color = None
 
     @property
     def opponent(self):
