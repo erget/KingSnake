@@ -6,6 +6,10 @@ KingSnake
 KingSnake is a Python implementation of chess for two human players. Because
 players are also objects, an AI implementation would also be possible.
 
+A simple text-based chess game can be started with the script `kingsnake`. This
+script calls `KingSnake.py` in xterm with a large font. If you don't want to use
+the xterm terminal, you can call `KingSnake.py` directly.
+
 KingSnake checks each move for legality and only allows legal moves to occur.
 However, because the library is open, you of course also have the possibility
 to move pieces around manually without invoking moves, making it possible to

@@ -3,7 +3,7 @@
 from distutils.core import setup
 
 setup(name='KingSnake',
-      version='0.1.0',
+      version='1.0.1',
       description='A Python chess game for two human players',
       author='Daniel Lee',
       author_email='Lee.Daniel.1986@gmail.com',
