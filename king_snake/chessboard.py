@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 """A chess board and fields."""
 
+import pickle
+import StringIO
+
 from king_snake.errors import FieldOccupiedError
 
 
@@ -139,6 +142,19 @@ class Chessboard(object):
             for number in range(1, 9):
                 self.fields[letter + str(number)] = Field(letter, number, self)
         self.current_move = 1
+        self.previous_state, self.current_state = None, None
+
+    def store_state(self):
+        """Remove previous stored state, pickle self and store it on object"""
+        self.previous_state = self.current_state
+        serialized = StringIO.StringIO()
+        pickle.dump(self, serialized)
+        self.current_state = serialized
+
+    @property
+    def previous_move(self):
+        """Return previous state"""
+        return pickle.loads(self.previous_state.getvalue())
 
     def add_players(self, white, black):
         """Add players to the game, assign colors and set up board."""
