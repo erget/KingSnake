@@ -10,9 +10,9 @@ class Field(object):
 
     def __repr__(self):
         return "Field({letter}, {number}, {board})".format(
-                                                       letter=chr(self.letter),
-                                                       number=self.number,
-                                                       board=self.chessboard)
+                                           letter=chr(self.letter),
+                                           number=self.number,
+                                           board=self.chessboard.__repr__())
 
     def __str__(self):
         """
