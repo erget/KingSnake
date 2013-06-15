@@ -129,9 +129,8 @@ class Pawn(Figure):
                                   self.position.chessboard.current_move - 1)):
                 capture_dict = super(Pawn, self).capture(capture_position)
                 field.receive_figure(self)
-                self._finish_turn()
-                return capture_dict
         # Normal capture
         else:
-            self._finish_turn()
-            return super(Pawn, self).capture(field)
+            capture_dict = super(Pawn, self).capture(field)
+        self._finish_turn()
+        return capture_dict
