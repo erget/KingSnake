@@ -46,7 +46,8 @@ class King(Figure):
         If given field is a castling field and castling is legal, use try
         castling. Otherwise call superclass method.
         """
-        if field in self.legal_moves and field in self.castle_positions:
+        if (field in self.legal_moves and
+                field in self.castle_positions.values()):
             raise FieldMustBeCastledError("Goal field is for castling.")
         else:
             super(King, self).move(field)
