@@ -1,14 +1,14 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 
+"""The GUI for playing chess using KingSnake!"""
+
 import sys
 import time
 
 from king_snake.player import Player
 from king_snake.chessboard import Chessboard
 from king_snake.errors import ChessError
-
-"""The GUI for playing chess using KingSnake!"""
 
 
 class ChessGame(object):
@@ -35,11 +35,11 @@ class ChessGame(object):
               "Enter moves directly or press Enter to enter the menu.")
         self.get_move()
 
-    def get_move(self):
+    def get_move(self, message=""):
         """Show board and prompt for current move, then execute it."""
         valid_move = False
         while not valid_move:
-            self.show()
+            self.show(message)
             move = raw_input("Please enter your move (e.g. E2 E4) or enter to "
                              "access the menu: ")
             if not move:
@@ -51,17 +51,17 @@ class ChessGame(object):
                                                         end_position.upper())
                     valid_move = True
                 except ValueError:
-                    print("Please enter your move in the following form:\n"
-                          "{start position} {end position}\n"
-                          "Positions are notaded using their letter followed"
-                          "by their number.\n"
-                          "Example valid move request to move from A1 to A2: "
-                          "'A1 A2'")
+                    message = ("Please enter your move in the following form:"
+                               "\n{start position} {end position}\n"
+                              "Positions are notated using their letter "
+                              "followed by their number.\n"
+                              "Example valid move request to move from A1 to "
+                              "A2: 'A1 A2'")
                 except KeyError:
-                    print("Only valid fields are allowed.")
+                    message = "Only valid fields are allowed."
                 except ChessError as error:
-                    print(error)
-        self.get_move()
+                    message = error
+        self.get_move(message)
 
     def menu(self):
         """Allow user to do something other than move pieces"""
@@ -116,9 +116,11 @@ class ChessGame(object):
             except (ValueError, IndexError):
                 print("Please enter a valid menu number.")
 
-    def show(self):
+    def show(self, message=""):
         """Show chessboard and print current player."""
         print(self.chessboard)
-        print("It's {}'s turn.\n".format(self.chessboard.current_player.color))
+        print("{}\n"
+              "It's {}'s turn.".format(message,
+                                       self.chessboard.current_player.color))
 
 game = ChessGame()
