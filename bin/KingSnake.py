@@ -13,14 +13,7 @@ from king_snake.errors import ChessError
 
 class ChessGame(object):
 
-    """
-    A chess game manager
-
-    What it should be able to do:
-    Read a game from the command line
-    Provide a user interface for moving pieces
-    Prompt user to move pieces around
-    """
+    """A chess game manager"""
 
     def __init__(self):
         player1, player2 = Player(), Player()
@@ -92,11 +85,18 @@ class ChessGame(object):
 
         def undo_turn():
             """Undo turn."""
-            raise NotImplementedError
+            try:
+                self.chessboard = self.chessboard.previous_move
+                self.white = self.chessboard.players["white"]
+                self.black = self.chessboard.players["black"]
+                self.get_move("Move restored.")
+            except AttributeError:
+                self.get_move("You are already at the first move.")
 
         def return_to_game():
             """Resume play."""
             self.get_move()
+
         menu_choices = []
         for function in (quit_game, resign, restart, save_game, load_game,
                          undo_turn, return_to_game):
