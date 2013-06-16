@@ -55,7 +55,7 @@ class Player(object):
         self.king = King(self)
         self.figures.append(self.king)
 
-    def move(self, start_field, goal_field):
+    def move(self, start, goal):
         """
         Move a piece to a new field.
 
@@ -69,12 +69,11 @@ class Player(object):
         @param start_field - String used to look up field object (e.g. "E2")
         @param goal_field - Like start_field
         """
-        self.chessboard.start_move(start_field, goal_field)
         if self != self.chessboard.current_player:
             raise TurnError("Move attempted out of turn.")
 
-        start_field = self.chessboard.fields[start_field]
-        goal_field = self.chessboard.fields[goal_field]
+        start_field = self.chessboard.fields[start]
+        goal_field = self.chessboard.fields[goal]
 
         figure = start_field.figure
         if not figure in self.figures:
@@ -97,4 +96,4 @@ class Player(object):
         figure.last_moved = self.chessboard.current_move
         if captured_piece:
             captured_piece.last_moved = self.chessboard.current_move
-        self.chessboard.end_turn()
+        self.chessboard.end_turn(start, goal)

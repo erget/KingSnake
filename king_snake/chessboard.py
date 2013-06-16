@@ -130,7 +130,7 @@ class Chessboard(object):
         string += "  {}".format(column_string)
         return string
 
-    def __init__(self, players=None, move_history=[]):
+    def __init__(self, players=None, move_history=None):
         """
         Initialize fields and set current move to 1.
 
@@ -152,18 +152,9 @@ class Chessboard(object):
 
         self.move_history = []
         self.current_move = 1
-        if self.current_player:
+        if move_history:
             for start_field, goal_field in move_history:
                 self.current_player.move(start_field, goal_field)
-
-    def start_move(self, start_field, goal_field):
-        """
-        Pickle self and store it on object.
-
-        The move history is used for rollback capabilities
-        """
-        self.current_move += 1
-        self.move_history.append((start_field, goal_field))
 
     def rollback(self):
         """Rollback to previous state"""
@@ -177,8 +168,14 @@ class Chessboard(object):
             player.set_up_board(self)
             self.current_player = self.players["white"]
 
-    def end_turn(self):
-        """End turn for current player and increment current_move."""
+    def end_turn(self, start_field, goal_field):
+        """
+        End turn for current player and increment current_move.
+
+        The move history is used for rollback capabilities
+        """
+        self.current_move += 1
+        self.move_history.append((start_field, goal_field))
         if self.current_player == self.players["white"]:
             self.current_player = self.players["black"]
         else:

@@ -17,10 +17,9 @@ class ChessGame(object):
     """A chess game manager"""
 
     def __init__(self):
-        player1, player2 = Player(), Player()
-        self.white, self.black = player1, player2
+        self.white, self.black = Player(), Player()
         self.chessboard = Chessboard()
-        self.chessboard.add_players(player1, player2)
+        self.chessboard.add_players(self.white, self.black)
         self.greet()
 
     def greet(self):
@@ -101,13 +100,8 @@ class ChessGame(object):
 
         def undo_turn():
             """Undo turn."""
-            try:
-                self.chessboard = self.chessboard.previous_move
-                self.white = self.chessboard.players["white"]
-                self.black = self.chessboard.players["black"]
-                self.get_move("Move restored.")
-            except AttributeError:
-                self.get_move("You are already at the first move.")
+            self.chessboard.rollback()
+            self.get_move("Move restored.")
 
         def return_to_game():
             """Resume play."""
