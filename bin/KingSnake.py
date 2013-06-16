@@ -3,6 +3,7 @@
 
 """The GUI for playing chess using KingSnake!"""
 
+import pickle
 import sys
 import time
 
@@ -77,11 +78,25 @@ class ChessGame(object):
 
         def save_game():
             """Save game to file."""
-            raise NotImplementedError
+            file_name = raw_input("What file would you like to save to?: ")
+            try:
+                with open(file_name, "w") as saved_game:
+                    pickle.dump(self.chessboard, saved_game)
+            except IOError:
+                self.get_move("The file you have chosen is invalid. "
+                              "Please enter a valid filename.")
 
         def load_game():
             """Load game from file."""
-            raise NotImplementedError
+            file_name = raw_input("What file would you like to load from?: ")
+            try:
+                with open(file_name) as saved_game:
+                    self.chessboard = pickle.load(saved_game)
+                    self.white = self.chessboard.players["white"]
+                    self.black = self.chessboard.players["black"]
+            except IOError:
+                self.get_move("The file you have chosen is invalid. "
+                              "Please enter a valid filename.")
 
         def undo_turn():
             """Undo turn."""
