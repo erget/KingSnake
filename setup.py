@@ -9,7 +9,7 @@ setup(name='KingSnake',
       author_email='Lee.Daniel.1986@gmail.com',
       url='https://github.com/erget/KingSnake',
       packages=['king_snake', 'king_snake.figures'],
-      license="LICENSE",
+      license="GNU GPL",
       long_description=open("README").read(),
       scripts=["bin/kingsnake", "bin/KingSnake.py"]
      )
