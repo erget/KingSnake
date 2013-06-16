@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 """A chess board and fields."""
 
-import pickle
-import StringIO
-
 from king_snake.errors import FieldOccupiedError
 
 
@@ -133,39 +130,44 @@ class Chessboard(object):
         string += "  {}".format(column_string)
         return string
 
-    def _pickle(self):
-        """Return pickled version of self"""
-        serialized = StringIO.StringIO()
-        pickle.dump(self, serialized)
-        return serialized
+    def __init__(self, players=None, move_history=[]):
+        """
+        Initialize fields and set current move to 1.
 
-    def __init__(self):
-        """Initialize fields and set current move to 1."""
-        self.players = dict()
+        Players do not have to be supplied. If they are, they should be
+        provided as a dictionary: {"white": Player, "black": Player}
+
+        If a move history is supplied, apply that move history.
+        """
         self.fields = dict()
-        self.current_player = None
         for letter in "ABCDEFGH":
             for number in range(1, 9):
                 self.fields[letter + str(number)] = Field(letter, number, self)
+
+        if players:
+            self.add_players(players["white"], players["black"])
+        else:
+            self.players = dict()
+            self.current_player = None
+
+        self.move_history = []
         self.current_move = 1
-        self.move_before_last = None
-        self.last_move = None
+        if self.current_player:
+            for start_field, goal_field in move_history:
+                self.current_player.move(start_field, goal_field)
 
-    def store_state(self):
-        """Pickle self and store it on object"""
-        self.move_before_last = self.last_move
-        self.last_move = self._pickle()
+    def start_move(self, start_field, goal_field):
+        """
+        Pickle self and store it on object.
 
-    @property
-    def previous_move(self):
-        """Return previous state"""
-        return pickle.loads(self.last_move.getvalue())
+        The move history is used for rollback capabilities
+        """
+        self.current_move += 1
+        self.move_history.append((start_field, goal_field))
 
     def rollback(self):
         """Rollback to previous state"""
-        chessboard = self.previous_move
-        for player in self.players:
-            self.players[player].figures = chessboard.players[player].figures
+        self.__init__(self.players, self.move_history[:-1])
 
     def add_players(self, white, black):
         """Add players to the game, assign colors and set up board."""
@@ -181,4 +183,3 @@ class Chessboard(object):
             self.current_player = self.players["black"]
         else:
             self.current_player = self.players["white"]
-        self.current_move += 1

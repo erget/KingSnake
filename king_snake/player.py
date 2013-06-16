@@ -69,7 +69,7 @@ class Player(object):
         @param start_field - String used to look up field object (e.g. "E2")
         @param goal_field - Like start_field
         """
-        self.chessboard.store_state()
+        self.chessboard.start_move(start_field, goal_field)
         if self != self.chessboard.current_player:
             raise TurnError("Move attempted out of turn.")
 
