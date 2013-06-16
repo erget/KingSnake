@@ -85,6 +85,7 @@ class ChessGame(object):
             except IOError:
                 self.get_move("The file you have chosen is invalid. "
                               "Please enter a valid filename.")
+            self.get_move("Game saved to {}.".format(file_name))
 
         def load_game():
             """Load game from file."""
