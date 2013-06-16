@@ -133,6 +133,12 @@ class Chessboard(object):
         string += "  {}".format(column_string)
         return string
 
+    def _pickle(self):
+        """Return pickled version of self"""
+        serialized = StringIO.StringIO()
+        pickle.dump(self, serialized)
+        return serialized
+
     def __init__(self):
         """Initialize fields and set current move to 1."""
         self.players = dict()
@@ -142,14 +148,13 @@ class Chessboard(object):
             for number in range(1, 9):
                 self.fields[letter + str(number)] = Field(letter, number, self)
         self.current_move = 1
-        self.move_before_last, self.last_move = None, None
+        self.move_before_last = None
+        self.last_move = None
 
     def store_state(self):
-        """Remove previous stored state, pickle self and store it on object"""
+        """Pickle self and store it on object"""
         self.move_before_last = self.last_move
-        serialized = StringIO.StringIO()
-        pickle.dump(self, serialized)
-        self.last_move = serialized
+        self.last_move = self._pickle()
 
     @property
     def previous_move(self):

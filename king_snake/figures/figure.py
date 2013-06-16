@@ -114,18 +114,17 @@ class Figure(object):
             raise IllegalMoveError("Piece cannot move to given field.")
 
     def capture(self, field):
-        """Capture piece at field.
+        """
+        Capture piece at field.
 
         Check if piece to capture is of different color. If not, raise error.
         If it is, unlink the figure and field, then place self on field.
-
-        @return dict: {"figure": figure, "old_position": old_position}
         """
         if field.figure.color != self.color:
             captured_figure = field.figure
             captured_figure.position = None
             field.figure = None
             field.receive_figure(self)
-            return {"figure": captured_figure, "old_position": field}
+            return captured_figure
         else:
             raise IllegalCaptureError("Cannot capture piece of same color.")

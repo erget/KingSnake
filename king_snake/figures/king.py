@@ -65,8 +65,6 @@ class King(Figure):
         check if any of the positions between and including the king and rook
         are occupied or threatened. If this is not the case, castle the king.
         If not, raise error.
-
-        @return: Dictionary as if rook had been captured.
         """
         involved_fields = []
         rook, rook_position = None, None
@@ -106,8 +104,8 @@ class King(Figure):
                 else:
                     field.to_left().receive_figure(rook)
 
-        # If King could be castled, return capture dictionary with rook.
-        if self.position == field:
-            return {"figure": rook, "old_position": old_position}
-        else:
+        # King could not be castled
+        if self.position != field:
             raise IllegalMoveError("King cannot castle here.")
+        else:
+            return rook

@@ -127,10 +127,10 @@ class Pawn(Figure):
                 capture_figure.can_be_taken_en_passant and
                 capture_figure.last_moved == (
                                   self.position.chessboard.current_move - 1)):
-                capture_dict = super(Pawn, self).capture(capture_position)
+                captured_figure = super(Pawn, self).capture(capture_position)
                 field.receive_figure(self)
         # Normal capture
         else:
-            capture_dict = super(Pawn, self).capture(field)
+            captured_figure = super(Pawn, self).capture(field)
         self._finish_turn()
-        return capture_dict
+        return captured_figure

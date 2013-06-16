@@ -17,36 +17,25 @@ class Player(object):
 
     def __str__(self):
         if self.chessboard:
-            if self == self.chessboard.players["white"]:
-                color = "White"
-            else:
-                color = "Black"
             return_string = ("{color} Player on "
                              "{chessboard}\n"
                              "Figures: "
-                             "{figures}".format(color=color,
+                             "{figures}".format(color=self.color,
                                                 chessboard=self.chessboard,
                                                 figures=self.figures))
         else:
             return_string = self.__repr__()
         return return_string
 
-    @staticmethod
-    def rollback(moved_piece, captured_piece=None):
-        """
-        Reverse a turn.
-
-        @param moved_piece - Tuple of piece moved during the move with its old
-                             position
-        @param captured_piece - Tuple for captured piece, formated as above
-        """
-        rollback_pieces = [moved_piece]
-        if captured_piece:
-            rollback_pieces.append(captured_piece)
-
-        for piece in rollback_pieces:
-            piece["old_position"].receive_figure(piece["figure"])
-            piece["figure"].position = piece["old_position"]
+    def rollback(self):
+        """Reverse a turn."""
+        self.chessboard = self.chessboard.previous_move
+        self.figures = self.chessboard.players[self.color].figures
+        if self.color == "white":
+            opponent_color = "black"
+        else:
+            opponent_color = "white"
+        self.opponent.figures = self.chessboard.players[opponent_color].figures
 
     def __init__(self):
         self.chessboard = None
@@ -57,7 +46,7 @@ class Player(object):
     @property
     def opponent(self):
         """Return other player in chess game"""
-        if self == self.chessboard.players["white"]:
+        if self.color == "white":
             return self.chessboard.players["black"]
         else:
             return self.chessboard.players["white"]
@@ -65,6 +54,10 @@ class Player(object):
     def set_up_board(self, chessboard):
         """Set up pieces on given chessboard and find other player."""
         self.chessboard = chessboard
+        if self == self.chessboard.players["white"]:
+            self.color = "white"
+        else:
+            self.color = "black"
         self.figures = list(Pawn(self) for pawns in range(8))
         for doubled_piece in (Rook, Knight, Bishop) * 2:
             self.figures.append(doubled_piece(self))
@@ -105,14 +98,13 @@ class Player(object):
             captured_piece = figure.capture(goal_field)
         except FieldMustBeCastledError:
             captured_piece = figure.castle(goal_field)
-        moved_piece = {"figure": figure, "old_position": start_field}
 
         if self.king.in_check:
-            self.rollback(moved_piece, captured_piece)
+            self.rollback()
             raise IllegalMoveError("Move would put player's king in check.")
 
         figure.already_moved = True
         figure.last_moved = self.chessboard.current_move
         if captured_piece:
-            captured_piece["figure"].last_moved = self.chessboard.current_move
+            captured_piece.last_moved = self.chessboard.current_move
         self.chessboard.end_turn()
