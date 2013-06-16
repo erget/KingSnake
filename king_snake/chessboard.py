@@ -161,6 +161,12 @@ class Chessboard(object):
         """Return previous state"""
         return pickle.loads(self.last_move.getvalue())
 
+    def rollback(self):
+        """Rollback to previous state"""
+        chessboard = self.previous_move
+        for player in self.players:
+            self.players[player].figures = chessboard.players[player].figures
+
     def add_players(self, white, black):
         """Add players to the game, assign colors and set up board."""
         for color, player in (("white", white), ("black", black)):

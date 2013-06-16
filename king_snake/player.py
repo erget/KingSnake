@@ -27,16 +27,6 @@ class Player(object):
             return_string = self.__repr__()
         return return_string
 
-    def rollback(self):
-        """Reverse a turn."""
-        self.chessboard = self.chessboard.previous_move
-        self.figures = self.chessboard.players[self.color].figures
-        if self.color == "white":
-            opponent_color = "black"
-        else:
-            opponent_color = "white"
-        self.opponent.figures = self.chessboard.players[opponent_color].figures
-
     def __init__(self):
         self.chessboard = None
         self.figures = None
@@ -100,7 +90,7 @@ class Player(object):
             captured_piece = figure.castle(goal_field)
 
         if self.king.in_check:
-            self.rollback()
+            self.chessboard.rollback()
             raise IllegalMoveError("Move would put player's king in check.")
 
         figure.already_moved = True
